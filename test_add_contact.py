@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest
+import os
 
 class TestAddContact(unittest.TestCase):
     def setUp(self):
@@ -27,7 +28,11 @@ class TestAddContact(unittest.TestCase):
         # init contact creation
         wd.find_element_by_id("header").click()
         wd.find_element_by_link_text("add new").click()
-        # fill group form
+        # fill contact form 'Upload photo file'
+        file_name = 'contact_photo.jpg'
+        file_path = os.path.dirname(os.path.realpath('test_data/' + file_name)) + '\\' + file_name
+        wd.find_element_by_name("photo").send_keys(file_path)
+        # fill contact form 'Full Name and Job'
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys("Lena")
@@ -40,9 +45,6 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("nickname").click()
         wd.find_element_by_name("nickname").clear()
         wd.find_element_by_name("nickname").send_keys("LenaCun")
-        wd.find_element_by_name("photo").click()
-        wd.find_element_by_name("photo").clear()
-        wd.find_element_by_name("photo").send_keys("C:\\fakepath\\14183830302781.jpg")
         wd.find_element_by_name("title").click()
         wd.find_element_by_name("title").clear()
         wd.find_element_by_name("title").send_keys("funny")
@@ -52,6 +54,7 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("address").click()
         wd.find_element_by_name("address").clear()
         wd.find_element_by_name("address").send_keys("Orenburh City, Ulim Street")
+        # fill contact form 'Telephone'
         wd.find_element_by_name("home").click()
         wd.find_element_by_name("home").clear()
         wd.find_element_by_name("home").send_keys("90173829294")
@@ -64,6 +67,7 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("fax").click()
         wd.find_element_by_name("fax").clear()
         wd.find_element_by_name("fax").send_keys("90187438283")
+        # fill contact form 'Email and B-day'
         wd.find_element_by_name("email").click()
         wd.find_element_by_name("email").clear()
         wd.find_element_by_name("email").send_keys("oneemail@mail.ru")
@@ -94,6 +98,7 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("ayear").click()
         wd.find_element_by_name("ayear").clear()
         wd.find_element_by_name("ayear").send_keys("1991")
+        # fill contact form 'Secondary'
         wd.find_element_by_name("address2").click()
         wd.find_element_by_name("address2").clear()
         wd.find_element_by_name("address2").send_keys("Orenburg City, Chraly Street")
@@ -105,11 +110,11 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("notes").send_keys("test notes one")
         # submit contact creation
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
-        # return to home-page
+        # click home page button
         wd.find_element_by_link_text("home").click()
         # logout
         wd.find_element_by_link_text("Logout").click()
-    
+
     def is_element_present(self, how, what):
         try: self.wd.find_element(by=how, value=what)
         except NoSuchElementException as e: return False
