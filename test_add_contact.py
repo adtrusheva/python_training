@@ -49,6 +49,40 @@ class TestAddContact(unittest.TestCase):
         self.click_home_page_button(wd)
         self.logout(wd)
 
+    def test_add_empty_contact(self):
+        wd = self.wd
+        self.open_home_page(wd)
+        self.login(wd, username="admin", password="secret")
+        self.create_contact(wd, Contact(
+            photo='',
+            firstname='',
+            middlename='',
+            lastname='',
+            nickname='',
+            title='',
+            company='',
+            address='',
+            home='',
+            mobile='',
+            work='',
+            fax='',
+            email='',
+            email2='',
+            email3='',
+            homepage='',
+            bday='',
+            bmonth='',
+            byear='',
+            aday='',
+            amonth='',
+            ayear='',
+            address2='',
+            phone2='',
+            notes=''
+        ))
+        self.click_home_page_button(wd)
+        self.logout(wd)
+
     def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
 
@@ -60,9 +94,10 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_id("header").click()
         wd.find_element_by_link_text("add new").click()
         # fill contact form 'Upload photo file'
-        file_name = contact.photo
-        file_path = os.path.dirname(os.path.realpath('test_data/' + file_name)) + '\\' + file_name
-        wd.find_element_by_name("photo").send_keys(file_path)
+        if contact.photo != '':
+            file_name = contact.photo
+            file_path = os.path.dirname(os.path.realpath('test_data/' + file_name)) + '\\' + file_name
+            wd.find_element_by_name("photo").send_keys(file_path)
         # fill contact form 'Full Name and Job'
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -111,24 +146,30 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("homepage").click()
         wd.find_element_by_name("homepage").clear()
         wd.find_element_by_name("homepage").send_keys(contact.homepage)
-        wd.find_element_by_name("bday").click()
-        Select(wd.find_element_by_name("bday")).select_by_visible_text(contact.bday)
-        wd.find_element_by_xpath("//option[@value='" + contact.bday + "']").click()
-        wd.find_element_by_name("bmonth").click()
-        Select(wd.find_element_by_name("bmonth")).select_by_visible_text(contact.bmonth)
-        wd.find_element_by_xpath("//option[@value='" + contact.bmonth + "']").click()
-        wd.find_element_by_name("byear").click()
-        wd.find_element_by_name("byear").clear()
-        wd.find_element_by_name("byear").send_keys(contact.byear)
-        wd.find_element_by_name("aday").click()
-        Select(wd.find_element_by_name("aday")).select_by_visible_text(contact.aday)
-        wd.find_element_by_css_selector("select[name=\"aday\"] > option[value=\"" + contact.aday + "\"]").click()
-        wd.find_element_by_name("amonth").click()
-        Select(wd.find_element_by_name("amonth")).select_by_visible_text(contact.amonth)
-        wd.find_element_by_css_selector("select[name=\"amonth\"] > option[value=\"" + contact.amonth + "\"]").click()
-        wd.find_element_by_name("ayear").click()
-        wd.find_element_by_name("ayear").clear()
-        wd.find_element_by_name("ayear").send_keys(contact.ayear)
+        if contact.bday != '':
+            wd.find_element_by_name("bday").click()
+            Select(wd.find_element_by_name("bday")).select_by_visible_text(contact.bday)
+            wd.find_element_by_xpath("//option[@value='" + contact.bday + "']").click()
+        if contact.bmonth != '':
+            wd.find_element_by_name("bmonth").click()
+            Select(wd.find_element_by_name("bmonth")).select_by_visible_text(contact.bmonth)
+            wd.find_element_by_xpath("//option[@value='" + contact.bmonth + "']").click()
+        if contact.byear != '':
+            wd.find_element_by_name("byear").click()
+            wd.find_element_by_name("byear").clear()
+            wd.find_element_by_name("byear").send_keys(contact.byear)
+        if contact.aday != '':
+            wd.find_element_by_name("aday").click()
+            Select(wd.find_element_by_name("aday")).select_by_visible_text(contact.aday)
+            wd.find_element_by_css_selector("select[name=\"aday\"] > option[value=\"" + contact.aday + "\"]").click()
+        if contact.amonth != '':
+            wd.find_element_by_name("amonth").click()
+            Select(wd.find_element_by_name("amonth")).select_by_visible_text(contact.amonth)
+            wd.find_element_by_css_selector("select[name=\"amonth\"] > option[value=\"" + contact.amonth + "\"]").click()
+        if contact.ayear != '':
+            wd.find_element_by_name("ayear").click()
+            wd.find_element_by_name("ayear").clear()
+            wd.find_element_by_name("ayear").send_keys(contact.ayear)
         # fill contact form 'Secondary'
         wd.find_element_by_name("address2").click()
         wd.find_element_by_name("address2").clear()
