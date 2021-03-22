@@ -17,7 +17,6 @@ class TestAddContact(unittest.TestCase):
 
     def test_add_contact(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.create_contact(wd, Contact(
             photo='contact_photo.jpg',
@@ -46,12 +45,10 @@ class TestAddContact(unittest.TestCase):
             phone2='928473627',
             notes='port'
         ))
-        self.click_home_page_button(wd)
         self.logout(wd)
 
     def test_add_empty_contact(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.create_contact(wd, Contact(
             photo='',
@@ -80,7 +77,6 @@ class TestAddContact(unittest.TestCase):
             phone2='',
             notes=''
         ))
-        self.click_home_page_button(wd)
         self.logout(wd)
 
     def logout(self, wd):
@@ -182,8 +178,10 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("notes").send_keys(contact.notes)
         # submit contact creation
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+        self.click_home_page_button(wd)
 
     def login(self, wd, username, password):
+        self.open_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
