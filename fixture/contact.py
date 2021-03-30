@@ -7,10 +7,12 @@ class ContactHelper:
 
     def click_home_page_button(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        if not (wd.current_url.endswith("/") and len(wd.find_elements_by_id("maintable")) > 0):
+            wd.find_element_by_link_text("home").click()
 
     def create(self, contact):
         wd = self.app.wd
+        self.click_home_page_button()
         # init contact creation
         wd.find_element_by_id("header").click()
         wd.find_element_by_link_text("add new").click()
@@ -22,7 +24,7 @@ class ContactHelper:
 
     def delete_first_contact(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        self.click_home_page_button()
         # select first contact
         wd.find_element_by_name("selected[]").click()
         # submit deletion
@@ -32,7 +34,7 @@ class ContactHelper:
 
     def edit_first_contact(self, new_contact_data):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        self.click_home_page_button()
         # submit edition
         wd.find_element_by_xpath("(//img[@alt='Edit'])[1]").click()
         # edition contact form
