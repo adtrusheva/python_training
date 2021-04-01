@@ -98,5 +98,5 @@ class ContactHelper:
 
     def count(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        self.click_home_page_button()
         return len(wd.find_elements_by_xpath("(//img[@alt='Edit'])"))
