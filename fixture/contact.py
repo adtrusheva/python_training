@@ -1,6 +1,8 @@
 from model.contact import Contact
 from selenium.webdriver.support.ui import Select
 import os
+
+
 class ContactHelper:
 
     def __init__(self, app):
@@ -29,27 +31,11 @@ class ContactHelper:
         self.contact_cache = None
 
     def delete_first_contact(self):
-        wd = self.app.wd
-        self.go_to_home_page()
-        # select first contact
-        wd.find_element_by_name("selected[]").click()
-        # submit deletion
-        wd.find_element_by_xpath("(//input[@value='Delete'])").click()
-        wd.switch_to_alert().accept()
-        self.click_home_page_button()
-        self.contact_cache = None
+        self.delete_contact_by_index(0)
 
     def edit_first_contact(self, new_contact_data):
         wd = self.app.wd
-        self.go_to_home_page()
-        # submit edition
-        wd.find_element_by_xpath("(//img[@alt='Edit'])[1]").click()
-        # edition contact form
-        self.fill_form(new_contact_data)
-        # submit contact edition
-        wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
-        self.go_to_home_page()
-        self.contact_cache = None
+        self.edit_contact_by_index(new_contact_data, 0)
 
     def fill_form(self, contact):
         wd = self.app.wd
@@ -122,3 +108,30 @@ class ContactHelper:
                 lastname = element.find_element_by_xpath('td[2]').text
                 self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=id))
         return list(self.contact_cache)
+
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
+    def delete_contact_by_index(self, index):
+        wd = self.app.wd
+        self.go_to_home_page()
+        # select first contact
+        self.select_contact_by_index(index)
+        # submit deletion
+        wd.find_element_by_xpath("(//input[@value='Delete'])").click()
+        wd.switch_to_alert().accept()
+        self.click_home_page_button()
+        self.contact_cache = None
+
+    def edit_contact_by_index(self, new_contact_data, index):
+        wd = self.app.wd
+        self.go_to_home_page()
+        # submit edition
+        wd.find_element_by_xpath("(//img[@alt='Edit'])[" + str(index + 1) + "]").click()
+        # edition contact form
+        self.fill_form(new_contact_data)
+        # submit contact edition
+        wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
+        self.go_to_home_page()
+        self.contact_cache = None
