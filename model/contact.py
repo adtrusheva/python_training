@@ -25,7 +25,8 @@ class Contact:
                  ayear=None,
                  address2=None,
                  phone2=None,
-                 notes=None):
+                 notes=None,
+                 id=None):
         self.photo = photo
         self.firstname = firstname
         self.middlename = middlename
@@ -51,3 +52,4 @@ class Contact:
         self.address2 = address2
         self.phone2 = phone2
         self.notes = notes
+        self.id = id

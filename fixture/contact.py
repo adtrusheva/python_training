@@ -1,18 +1,24 @@
+from model.contact import Contact
 from selenium.webdriver.support.ui import Select
 import os
+import time
 class ContactHelper:
 
     def __init__(self, app):
         self.app = app
 
-    def click_home_page_button(self):
+    def go_to_home_page(self):
         wd = self.app.wd
         if not (wd.current_url.endswith("/") and len(wd.find_elements_by_id("maintable")) > 0):
-            wd.find_element_by_link_text("home").click()
+            self.click_home_page_button()
+
+    def click_home_page_button(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
 
     def create(self, contact):
         wd = self.app.wd
-        self.click_home_page_button()
+        self.go_to_home_page()
         # init contact creation
         wd.find_element_by_id("header").click()
         wd.find_element_by_link_text("add new").click()
@@ -20,11 +26,11 @@ class ContactHelper:
         self.fill_form(contact)
         # submit contact creation
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
-        self.click_home_page_button()
+        self.go_to_home_page()
 
     def delete_first_contact(self):
         wd = self.app.wd
-        self.click_home_page_button()
+        self.go_to_home_page()
         # select first contact
         wd.find_element_by_name("selected[]").click()
         # submit deletion
@@ -34,14 +40,14 @@ class ContactHelper:
 
     def edit_first_contact(self, new_contact_data):
         wd = self.app.wd
-        self.click_home_page_button()
+        self.go_to_home_page()
         # submit edition
         wd.find_element_by_xpath("(//img[@alt='Edit'])[1]").click()
         # edition contact form
         self.fill_form(new_contact_data)
         # submit contact edition
         wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
-        self.click_home_page_button()
+        self.go_to_home_page()
 
     def fill_form(self, contact):
         wd = self.app.wd
@@ -98,5 +104,16 @@ class ContactHelper:
 
     def count(self):
         wd = self.app.wd
-        self.click_home_page_button()
+        self.go_to_home_page()
         return len(wd.find_elements_by_xpath("(//img[@alt='Edit'])"))
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.go_to_home_page()
+        contacts = []
+        for element in wd.find_elements_by_css_selector('tr[name="entry"]'):
+            id = element.find_element_by_name("selected[]").get_attribute('value')
+            firstname = element.find_element_by_xpath('td[3]').text
+            lastname = element.find_element_by_xpath('td[2]').text
+            contacts.append(Contact(firstname=firstname, lastname=lastname, id=id))
+        return contacts
