@@ -32,7 +32,7 @@ def random_website(prefix, maxlen):
 
 def random_month():
     month_list = [
-        "January"
+        "January",
         "February",
         "March",
         "April",
