@@ -107,10 +107,9 @@ class ContactHelper:
                 id = element.find_element_by_name("selected[]").get_attribute('value')
                 firstname = element.find_element_by_xpath('td[3]').text
                 lastname = element.find_element_by_xpath('td[2]').text
-                all_phones = element.find_element_by_xpath('td[6]').text.splitlines()
+                all_phones = element.find_element_by_xpath('td[6]').text
                 self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=id,
-                                                  home=all_phones[0], mobile=all_phones[1],
-                                                  work=all_phones[2], phone2=all_phones[3]))
+                                                  all_phones_from_home_page=all_phones))
         return list(self.contact_cache)
 
     def select_contact_by_index(self, index):
