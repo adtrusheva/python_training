@@ -34,9 +34,9 @@ def random_address(prefix, maxlen):
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
-def random_number(maxlen):
+def random_number(len):
     numeral = string.digits
-    return [random.choice(numeral) for i in range(random.randrange(maxlen))]
+    return [random.choice(numeral) for i in range(len)]
 
 
 def random_email(prefix, maxlen):
