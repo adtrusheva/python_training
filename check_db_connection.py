@@ -1,28 +1,11 @@
-import pymysql.cursors
+from fixture.db import DbFixture
 
-connection = pymysql.connect(host="127.0.0.1", database="addressbook", user="root", password="")
+db = DbFixture(host="127.0.0.1", name="addressbook", user="root", password="")
 
 try:
-    cursor = connection.cursor()
-    cursor.execute("select  \
-                   id, \
-                   firstname, \
-                   lastname, \
-                   middlename, \
-                   photo, \
-                   nickname, \
-                   title, \
-                   company, \
-                   address, \
-                   home, \
-                   mobile, \
-                   work, \
-                   fax, email, email2, \
-                   email3, homepage, bday, \
-                   bmonth, byear, aday, amonth, \
-                   ayear, address2, phone2,notes  \
-                   from addressbook")
-    for row in cursor.fetchall():
-        print(row)
+   contacts = db.get_contact_list()
+   for contact in contacts:
+        print(contact)
+        print(len(contacts))
 finally:
-    connection.close()
+    db.destroy()

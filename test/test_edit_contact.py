@@ -41,7 +41,7 @@ def test_edit_contact_firstname(app, db, check_ui):
     old_contacts[index] = contact
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
     if check_ui:
-        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contacts.get_group_list(),
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(),
                                                                      key=Contact.id_or_max)
 
 
@@ -53,7 +53,7 @@ def test_edit_contact_middlename(app, db, check_ui):
     new_contacts = db.get_contact_list()
     assert len(old_contacts) == len(new_contacts)
     if check_ui:
-        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contacts.get_group_list(),
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(),
                                                                      key=Contact.id_or_max)
 
 
@@ -65,5 +65,5 @@ def test_edit_contact_lastname(app, db, check_ui):
     new_contacts = db.get_contact_list()
     assert len(old_contacts) == len(new_contacts)
     if check_ui:
-        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contacts.get_group_list(),
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(),
                                                                      key=Contact.id_or_max)
