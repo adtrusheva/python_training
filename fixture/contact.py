@@ -113,10 +113,16 @@ class ContactHelper:
                 for email in element.find_element_by_xpath('td[5]').find_elements_by_css_selector('a'):
                     all_emails.append(email.text)
                 all_emails = "\n".join(all_emails)
-                self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=id,
-                                                  all_phones_from_home_page=all_phones,
-                                                  all_emails_from_home_page=all_emails,
-                                                  address=address))
+                self.contact_cache.append(
+                    Contact(
+                        id=id,
+                        firstname=firstname,
+                        lastname=lastname,
+                        all_phones_from_home_page=all_phones,
+                        all_emails_from_home_page=all_emails,
+                        address=address
+                    )
+                )
         return list(self.contact_cache)
 
     def select_contact_by_index(self, index):
