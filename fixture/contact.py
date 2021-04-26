@@ -76,6 +76,12 @@ class ContactHelper:
             wd.find_element_by_name(field_name).click()
             Select(wd.find_element_by_name(field_name)).select_by_visible_text(value)
 
+    def change_select_option(self, field_name, value):
+        wd = self.app.wd
+        if value is not None:
+            wd.find_element_by_name(field_name).click()
+            Select(wd.find_element_by_name(field_name)).select_by_value(value)
+
     def change_file_value(self, field_name, value):
         wd = self.app.wd
         if value is not None:
@@ -227,3 +233,18 @@ class ContactHelper:
 
         return Contact(home=home, mobile=mobile, work=work, phone2=phone2)
 
+    def add_contact_to_group(self, contact, group_id):
+        wd = self.app.wd
+        self.go_to_home_page()
+        self.select_contact_by_id(contact.id)
+        self.change_select_option("to_group", group_id)
+        wd.find_element_by_xpath("(//input[@name='add'])").click()
+
+    def delete_contact_from_group(self, contact, group_id):
+        wd = self.app.wd
+        self.go_to_home_page()
+        self.change_select_option("group", group_id)
+        self.select_contact_by_id(contact.id)
+        wd.find_element_by_xpath("(//input[@name='remove'])").click()
+        self.go_to_home_page()
+        self.change_select_value("group", '[all]')
