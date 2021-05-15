@@ -86,7 +86,7 @@ class ContactHelper:
         wd = self.app.wd
         if value is not None:
             file_name = value
-            file_path = os.path.dirname(os.path.realpath('../test_data/' + file_name)) + '\\' + file_name
+            file_path = os.path.dirname(os.path.realpath('..\\test_data\\' + file_name)) + '\\' + file_name
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(file_path)
 
