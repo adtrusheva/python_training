@@ -88,6 +88,7 @@ class ContactHelper:
             file_name = value
             file_path = os.path.dirname(os.path.realpath('..\\test_data\\' + file_name)) + '\\' + file_name
             wd.find_element_by_name(field_name).clear()
+            print(file_path)
             wd.find_element_by_name(field_name).send_keys(file_path)
 
     def change_field_value(self, field_name, text):
