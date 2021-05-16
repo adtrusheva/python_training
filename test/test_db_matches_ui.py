@@ -1,21 +1,21 @@
-from model.group import Group
 from model.contact import Contact
-from timeit import timeit
 import re
-
-
-def test_group_list(app, db):
-    print(timeit(lambda: app.group.get_group_list(), number=1))
-
-    def clean(group):
-        return Group(id=group.id, name=group.name.strip())
-
-    print(timeit(lambda: map(clean, db.get_group_list()), number=1000))
-    assert True  # sorted(ui_list, key=Group.id_or_max) == sorted(db_list, key=Group.id_or_max)
+import allure
 
 
 def test_contact_list(app, db):
-    ui_list = app.contact.get_contact_list()
+    ui_list = given_contacts_from_ui(app)
+    db_list = given_contacts_from_db(app, db)
+    equals_contacts(ui_list, db_list)
+
+
+@allure.step('Given a contacts from ui')
+def given_contacts_from_ui(app):
+    return app.contact.get_contact_list()
+
+
+@allure.step('Given a contacts from database')
+def given_contacts_from_db(app, db):
 
     def clean(contact):
         return Contact(
@@ -27,8 +27,13 @@ def test_contact_list(app, db):
             all_emails_from_home_page=merge_emails_like_on_home_page(contact),
         )
 
-    db_list = map(clean, db.get_contact_list())
+    return map(clean, db.get_contact_list())
+
+
+@allure.step('Then the contact list from ui equal contact list from db')
+def equals_contacts(ui_list, db_list):
     assert sorted(ui_list, key=Contact.id_or_max) == sorted(db_list, key=Contact.id_or_max)
+
 
 
 def merge_phones_like_on_home_page(contact):
